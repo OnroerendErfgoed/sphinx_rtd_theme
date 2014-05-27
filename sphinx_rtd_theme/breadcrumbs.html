@@ -5,30 +5,23 @@
           <li><a href="{{ doc.link|e }}">{{ doc.title }}</a> &raquo;</li>
       {% endfor %}
     <li>{{ title }}</li>
+     {%- for rellink in rellinks %}
+     {% if rellink[3] == "routing table" %}
+      <li class="wy-breadcrumbs-aside" {% if loop.first %}style="margin-right: 10px"{% endif %}>
+        <a href="{{ pathto(rellink[0]) }}" title="{{ rellink[1]|striptags|e }}"
+           {{ accesskey(rellink[2]) }}> | Routing table</a>
+        {%- if not loop.first %}{{ reldelim2 }}{% endif %}</li>
+       {% endif %}
+      {%- endfor %}
       <li class="wy-breadcrumbs-aside">
         {% if display_github %}
-          <a href="https://github.com/{{ github_user }}/{{ github_repo }}/blob/{{ github_version }}{{ conf_py_path }}{{ pagename }}{{ source_suffix }}" class="fa fa-github"> Edit on GitHub</a>
+          <a href="https://github.com/{{ github_user }}/{{ github_repo }}/blob/{{ github_version }}{{ conf_py_path }}{{ pagename }}.rst" class="fa fa-github"> Edit on GitHub</a>
         {% elif display_bitbucket %}
-          <a href="https://bitbucket.org/{{ bitbucket_user }}/{{ bitbucket_repo }}/src/{{ bitbucket_version}}{{ conf_py_path }}{{ pagename }}{{ source_suffix }}" class="fa fa-bitbucket"> Edit on Bitbucket</a>
+          <a href="https://bitbucket.org/{{ bitbucket_user }}/{{ bitbucket_repo }}/src/{{ bitbucket_version}}{{ conf_py_path }}{{ pagename }}.rst" class="fa fa-bitbucket"> Edit on Bitbucket</a>
         {% elif show_source and has_source and sourcename %}
           <a href="{{ pathto('_sources/' + sourcename, true)|e }}" rel="nofollow"> View page source</a>
         {% endif %}
       </li>
-      {%- for rellink in rellinks %}
-      <li class="right" {% if loop.first %}style="margin-right: 10px"{% endif %}>
-        <a href="{{ pathto(rellink[0]) }}" title="{{ rellink[1]|striptags|e }}"
-           {{ accesskey(rellink[2]) }}>{{ rellink[3] }}</a>
-        {%- if not loop.first %}{{ reldelim2 }}{% endif %}</li>
-      {%- endfor %}
-      {%- block rootrellink %}
-      <li><a href="{{ pathto(master_doc) }}">{{ shorttitle|e }}</a>{{ reldelim1 }}</li>
-      {%- endblock %}
-      {%- for parent in parents %}
-        <li><a href="{{ parent.link|e }}" {% if loop.last %}{{ accesskey("U") }}{% endif %}>{{ parent.title }}</a>{{ reldelim1 }}</li>
-      {%- endfor %}
-      {%- block relbaritems %} {% endblock %}
-   </ul>
-
-  </ul>
-  <hr/>
+     </ul>
+   <hr/>
 </div>
